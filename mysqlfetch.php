@@ -7,13 +7,14 @@
     
 <body>
 <?php
-
+echo "{$_POST['YunziSN']}<br />";
 if(!isset($_POST['YunziSN'])) {
-	echo 'invalid YunziSN';
+	echo 'invalid YunziSN<br />';
 	exit();
 }
-
-$target = $_POST['YunziSN'];
+else {
+	$target = $_POST['YunziSN'];
+}
 
 $user = 'root';
 $password = 'root';
@@ -21,26 +22,26 @@ $db = 'mysql';
 $host = 'localhost';
 $port = 3306;
 
-$mysqli = new mysqli($host, $user, $password, $db);
+$connection = new mysqli($host, $user, $password, $db);
 
-if ($mysqli->connect_errno) {
-    printf("Connect failed: %s\n", $mysqli->connect_error);
+if ($connection->connect_errno) {
+    printf("Connect failed: %s\n", $connection->connect_error);
     exit();
 }
 
 /* If we have to retrieve large amount of data we use MYSQLI_USE_RESULT */
-if ($result = $mysqli->query("SELECT * FROM Coupons WHERE YunziSN = '$target'", MYSQLI_USE_RESULT)) {
+if ($result = $connection->query("SELECT * FROM Coupons WHERE YunziSN = '$target'", MYSQLI_USE_RESULT)) {
 
 	echo 'START';
 	while( $row = $result->fetch_array() )
 	{
-		echo $row['YunziSN'] . "|" . $row['couponID'] . "|" . $row['couponTitle']. "|" .$row['couponDetails']."||";
+		echo $row['YunziSN'] . "|" . $row['CouponID'] . "|" . $row['CouponTitle']. "|" .$row['CouponDetails']."||";
 	}
     $result->close();
+    echo 'END';
 }
-	echo 'END';
 
-$mysqli->close();
+$connection->close();
 
 ?>
 
